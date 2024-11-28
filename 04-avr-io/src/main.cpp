@@ -1,5 +1,5 @@
 #include <avr/io.h>
-#include <Arduino.h>
+#include <util/delay.h>
 
 void setup() {
   //inputs
@@ -12,7 +12,7 @@ void setup() {
 }
 
 void loop() {
-  if (PINB & (1 << 3)) {  // pin 2 
+  if (PINB & (1 << 3)) {  // pin 2
     PORTB |= (1 << 0);
   } else {
     PORTB &= ~(1 << 0);
@@ -20,9 +20,18 @@ void loop() {
 
   // set high
   PORTB |= (1 << 1);
-  delay(100);
+  _delay_ms(100);
   
   // set lw
   PORTB &= ~(1 << 1);
-  delay(100);
+  _delay_ms(100);
+}
+
+int main() {
+  setup();
+  while (1)
+  {
+    loop();
+  }
+  return -1;
 }
