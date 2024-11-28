@@ -68,10 +68,10 @@ Here pin mapping will be as per the physical pins:
 
 * 1 - Reset, PB5
 * 2 - PB3
-* 3 - PB4
+* 3 - PB4, PWM
 * 4 - GND
-* 5 - PB0
-* 6 - PB1
+* 5 - PB0, PWM
+* 6 - PB1, PWM
 * 7 - PB2
 * 8 - VCC
 
