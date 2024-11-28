@@ -33,7 +33,7 @@ Even though, you setup these pins, you can use them for GPIO purposes.
 Create a new project and use ATtiny85 as the chip. Then use following as the `platformio.ini`:
 
 ```ini
-[env:program_via_ArduinoISP]
+[env:arduino_isp]
 platform = atmelavr
 framework = arduino
 board = attiny85
@@ -74,3 +74,28 @@ Here pin mapping will be as per the physical pins:
 * 6 - PB1
 * 7 - PB2
 * 8 - VCC
+
+## Running at 8Mhz
+
+For this we need to change fuse bits of chip. For that use a AVR Fuse calculator.
+Here's how we configure ATtiny85 to run at 8Mhz.
+
+```ini
+[env:arduino_isp]
+platform = atmelavr
+framework = arduino
+board = attiny85
+upload_protocol = stk500v1
+; each flag in a new line
+upload_flags =
+    -P$UPLOAD_PORT
+    -b$UPLOAD_SPEED
+    ; here we use a custom AVR fuse settings to run at 8Mhz
+    ; use a fuse calculator to change it
+    -Ulfuse:w:0xe2:m
+    -Uhfuse:w:0xdf:m
+    -Uefuse:w:0xff:m
+upload_speed = 19200
+upload_port = /dev/cu.usbserial-A5069RR4 ; Set the port to the Arduino COM Port
+board_build.f_cpu = 8000000L ; set we are running at 8Mhz
+```
