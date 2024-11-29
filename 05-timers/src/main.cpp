@@ -1,3 +1,5 @@
+// More details: https://www.gadgetronicx.com/attiny85-timer-tutorial-generating-time-delay-interrupts/
+
 #include <avr/io.h>
 
 void setupClock() {
