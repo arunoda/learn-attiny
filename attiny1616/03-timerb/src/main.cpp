@@ -33,6 +33,21 @@ ISR(TCB0_INT_vect) {
   TCB0.INTFLAGS = TCB_CAPT_bm;
 }
 
+const long CLOCK_TIME = 20000000;
+const int TIMER_DIV = 2;
+const int MANUAL_DIV = 4;
+float TICK_TIME_US = (1.0/(CLOCK_TIME / TIMER_DIV / MANUAL_DIV )) * 1 * 1000000L;
+// float TICK_TIME_US = 0.4;
+
+void setFrequency(int freq) {
+  float periodUs = (1.0 / freq) * 1000000L;
+  long halfPerioUs = periodUs / 2;
+  long periodTicks = halfPerioUs / TICK_TIME_US;
+
+  TCB0.CCMP = periodTicks;
+  // Serial.printf("Set Freq: periodUs: %ld\n", periodTicks);
+}
+
 void setup() {
     // Set PA1 as output (for toggling an LED)
     PORTA.DIRSET = PIN1_bm;
@@ -43,12 +58,18 @@ void setup() {
 
     // Configure TCB0 with interrupts
     setupTCBInterrupt();
+
+    // Setup Serial Comm
+    Serial0.begin(31250);
+    Serial0.println("Sound Box Started!");
 }
 
 void loop() {
     if(PORTA.IN & PIN2_bm) {
-      TCB0.CCMP = 30000;
+      // When high
+      setFrequency(220);
     } else {
-      TCB0.CCMP = 60000;
+      // When low
+      setFrequency(110);
     }
 }
