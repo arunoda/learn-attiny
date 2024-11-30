@@ -7,8 +7,8 @@ const int MANUAL_DIV = 4;
 float TICK_TIME_SEC = (1.0/(CLOCK_TIME / TIMER_DIV / MANUAL_DIV ));
 
 void setupTone1() {
-    // Set PA1 as output for Tone1
-    PORTA.DIRSET = PIN1_bm;
+    // Set PB4 as output for Tone1
+    PORTB.DIRSET = PIN4_bm;
     
     TCB0.CCMP = 65535; // Set the compare value
     TCB0.CTRLA |= TCB_ENABLE_bm; // counting value
@@ -31,7 +31,7 @@ ISR(TCB0_INT_vect) {
   // NOTE: Do not use tcb0SubScalerCnt++ == 4 here. I will affect the timer
   if (tcb0SubScalerCnt == MANUAL_DIV) {
     tcb0SubScalerCnt = 0;
-    PORTA.OUTTGL = PIN1_bm;
+    PORTB.OUTTGL = PIN4_bm;
   }
 
   tcb0SubScalerCnt++;
@@ -51,8 +51,8 @@ void setTone1Frequency(int freq) {
 
 
 void setupTone2() {
-    // Set PA2 as output for Tone2
-    PORTA.DIRSET = PIN2_bm;
+    // Set PB5 as output for Tone2
+    PORTB.DIRSET = PIN5_bm;
     
     TCB1.CCMP = 65535; // Set the compare value (we will change this later)
     TCB1.CTRLA |= TCB_ENABLE_bm; // enable the counter
@@ -75,7 +75,7 @@ ISR(TCB1_INT_vect) {
   // NOTE: Do not use tcb0SubScalerCnt++ == 4 here. I will affect the timer
   if (tcb1SubScalerCnt == MANUAL_DIV) {
     tcb1SubScalerCnt = 0;
-    PORTA.OUTTGL = PIN2_bm;
+    PORTB.OUTTGL = PIN5_bm;
   }
 
   tcb1SubScalerCnt++;
