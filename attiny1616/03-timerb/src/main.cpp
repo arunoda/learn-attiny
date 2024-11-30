@@ -36,13 +36,12 @@ ISR(TCB0_INT_vect) {
 const long CLOCK_TIME = 20000000;
 const int TIMER_DIV = 2;
 const int MANUAL_DIV = 4;
-float TICK_TIME_US = (1.0/(CLOCK_TIME / TIMER_DIV / MANUAL_DIV )) * 1 * 1000000L;
-// float TICK_TIME_US = 0.4;
+float TICK_TIME_SEC = (1.0/(CLOCK_TIME / TIMER_DIV / MANUAL_DIV ));
 
 void setFrequency(int freq) {
-  float periodUs = (1.0 / freq) * 1000000L;
-  long halfPerioUs = periodUs / 2;
-  long periodTicks = halfPerioUs / TICK_TIME_US;
+  float period = 1.0 / freq ;
+  float halfPeriod = period / 2;
+  long periodTicks = halfPeriod / TICK_TIME_SEC;
 
   TCB0.CCMP = periodTicks;
   // Serial.printf("Set Freq: periodUs: %ld\n", periodTicks);
